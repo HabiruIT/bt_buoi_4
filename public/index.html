@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products Management - Quản lý sản phẩm</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛍️ Products Management</h1>
+            <p>Quản lý sản phẩm, danh mục và người dùng</p>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="products">Products</button>
+            <button class="tab-btn" data-tab="categories">Categories</button>
+            <button class="tab-btn" data-tab="users">Users</button>
+        </div>
+
+        <!-- Products Tab -->
+        <div id="products-tab" class="tab-content active">
+            <div class="search-section">
+                <h2>🔍 Tìm kiếm Products</h2>
+                <p class="auto-search-hint">💡 Kết quả sẽ tự động cập nhật khi bạn nhập</p>
+                <div class="search-form">
+                    <div class="form-group">
+                        <label for="search-title">Title (includes):</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="search-title" placeholder="Nhập từ khóa tìm kiếm...">
+                            <span class="input-loader" id="title-loader"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="search-slug">Slug (exact):</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="search-slug" placeholder="Nhập slug chính xác...">
+                            <span class="input-loader" id="slug-loader"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="search-minPrice">Min Price:</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="search-minPrice" placeholder="0">
+                                <span class="input-loader" id="minPrice-loader"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="search-maxPrice">Max Price:</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="search-maxPrice" placeholder="1000">
+                                <span class="input-loader" id="maxPrice-loader"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button id="btn-reset-search" class="btn btn-secondary">Reset</button>
+                    </div>
+                </div>
+                <!-- Notification area -->
+                <div id="search-notification" class="notification hidden"></div>
+            </div>
+
+            <div class="search-section">
+                <h2>🎯 Lấy Product theo ID</h2>
+                <div class="search-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="product-id">Product ID:</label>
+                            <input type="number" id="product-id" placeholder="Nhập ID...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-section">
+                <div class="results-header">
+                    <h2>📦 Kết quả</h2>
+                    <span id="products-count" class="count-badge">0 products</span>
+                </div>
+                <div id="products-results" class="results-grid"></div>
+            </div>
+        </div>
+
+        <!-- Categories Tab -->
+        <div id="categories-tab" class="tab-content">
+            <div class="search-section">
+                <h2>📂 Categories</h2>
+            </div>
+
+            <div class="search-section">
+                <h2>🎯 Lấy Category theo ID</h2>
+                <div class="search-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="category-id">Category ID:</label>
+                            <input type="number" id="category-id" placeholder="Nhập ID...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-section">
+                <div class="results-header">
+                    <h2>📦 Kết quả</h2>
+                    <span id="categories-count" class="count-badge">0 categories</span>
+                </div>
+                <div id="categories-results" class="results-grid"></div>
+            </div>
+        </div>
+
+        <!-- Users Tab -->
+        <div id="users-tab" class="tab-content">
+            <div class="search-section">
+                <h2>👥 Users</h2>
+            </div>
+
+            <div class="search-section">
+                <h2>🎯 Lấy User theo ID</h2>
+                <div class="search-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="user-id">User ID:</label>
+                            <input type="number" id="user-id" placeholder="Nhập ID...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-section">
+                <div class="results-header">
+                    <h2>📦 Kết quả</h2>
+                    <span id="users-count" class="count-badge">0 users</span>
+                </div>
+                <div id="users-results" class="results-grid"></div>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Đang tải...</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
