@@ -3,33 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Products Management - Quản lý sản phẩm</title>
+    <title>NNPTUD Management System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Animated background blobs -->
+    <div class="bg-blob blob1"></div>
+    <div class="bg-blob blob2"></div>
+    <div class="bg-blob blob3"></div>
+
     <div class="container">
+        <!-- Header -->
         <header>
-            <h1>🛍️ Products Management</h1>
-            <p>Quản lý sản phẩm, danh mục và người dùng</p>
+            <div class="header-icon">🌿</div>
+            <h1>NNPTUD Management</h1>
+            <p>Hệ thống quản lý Users, Roles &amp; Products</p>
+            <div class="header-stats" id="header-stats">
+                <div class="stat-pill" id="stat-users">👤 Users</div>
+                <div class="stat-pill" id="stat-roles">🔑 Roles</div>
+                <div class="stat-pill" id="stat-products">📦 Products</div>
+            </div>
         </header>
 
         <!-- Navigation Tabs -->
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="products">Products</button>
-            <button class="tab-btn" data-tab="categories">Categories</button>
-            <button class="tab-btn" data-tab="users">Users</button>
+        <nav class="tabs">
+            <button class="tab-btn active" data-tab="users">
+                <span class="tab-icon">👤</span> Users
+            </button>
+            <button class="tab-btn" data-tab="roles">
+                <span class="tab-icon">🔑</span> Roles
+            </button>
+            <button class="tab-btn" data-tab="products">
+                <span class="tab-icon">📦</span> Products
+            </button>
+            <button class="tab-btn" data-tab="categories">
+                <span class="tab-icon">📂</span> Categories
+            </button>
+        </nav>
+
+        <!-- ===== USERS TAB ===== -->
+        <div id="users-tab" class="tab-content active">
+            <div class="section-header">
+                <h2>👤 Quản lý Users</h2>
+                <button class="btn btn-primary" onclick="getAllUsers()">🔄 Tải lại</button>
+            </div>
+
+            <!-- Enable / Disable -->
+            <div class="card-panel">
+                <h3 class="panel-title">⚡ Enable / Disable User</h3>
+                <div class="inline-form">
+                    <div class="form-group">
+                        <label for="action-email">Email</label>
+                        <input type="email" id="action-email" placeholder="user@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="action-username">Username</label>
+                        <input type="text" id="action-username" placeholder="Nhập username...">
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-success" onclick="enableUser()">✅ Enable</button>
+                        <button class="btn btn-danger" onclick="disableUser()">🚫 Disable</button>
+                    </div>
+                </div>
+                <div id="action-notification" class="notification hidden"></div>
+            </div>
+
+            <!-- Search by ID -->
+            <div class="card-panel">
+                <h3 class="panel-title">🔍 Tìm User theo ID</h3>
+                <div class="inline-form">
+                    <div class="form-group flex-grow">
+                        <label for="user-id">User ID (MongoDB ObjectId)</label>
+                        <input type="text" id="user-id" placeholder="Nhập ObjectId...">
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="getUserById()">Tìm</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="results-section">
+                <div class="results-header">
+                    <h3>📋 Danh sách Users</h3>
+                    <span id="users-count" class="count-badge">0 users</span>
+                </div>
+                <div id="users-results" class="results-grid"></div>
+            </div>
         </div>
 
-        <!-- Products Tab -->
-        <div id="products-tab" class="tab-content active">
-            <div class="search-section">
-                <h2>🔍 Tìm kiếm Products</h2>
-                <p class="auto-search-hint">💡 Kết quả sẽ tự động cập nhật khi bạn nhập</p>
+        <!-- ===== ROLES TAB ===== -->
+        <div id="roles-tab" class="tab-content">
+            <div class="section-header">
+                <h2>🔑 Quản lý Roles</h2>
+                <button class="btn btn-primary" onclick="getAllRoles()">🔄 Tải lại</button>
+            </div>
+
+            <!-- Search by ID -->
+            <div class="card-panel">
+                <h3 class="panel-title">🔍 Tìm Role theo ID</h3>
+                <div class="inline-form">
+                    <div class="form-group flex-grow">
+                        <label for="role-id">Role ID (MongoDB ObjectId)</label>
+                        <input type="text" id="role-id" placeholder="Nhập ObjectId...">
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="getRoleById()">Tìm</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="results-section">
+                <div class="results-header">
+                    <h3>📋 Danh sách Roles</h3>
+                    <span id="roles-count" class="count-badge">0 roles</span>
+                </div>
+                <div id="roles-results" class="results-grid roles-grid"></div>
+            </div>
+        </div>
+
+        <!-- ===== PRODUCTS TAB ===== -->
+        <div id="products-tab" class="tab-content">
+            <div class="section-header">
+                <h2>📦 Quản lý Products</h2>
+            </div>
+
+            <div class="card-panel">
+                <h3 class="panel-title">🔍 Tìm kiếm Products</h3>
+                <p class="hint">💡 Kết quả tự động cập nhật khi bạn nhập</p>
                 <div class="search-form">
                     <div class="form-group">
                         <label for="search-title">Title (includes):</label>
                         <div class="input-wrapper">
-                            <input type="text" id="search-title" placeholder="Nhập từ khóa tìm kiếm...">
+                            <input type="text" id="search-title" placeholder="Nhập từ khóa...">
                             <span class="input-loader" id="title-loader"></span>
                         </div>
                     </div>
@@ -57,92 +166,54 @@
                         </div>
                     </div>
                     <div class="form-actions">
-                        <button id="btn-reset-search" class="btn btn-secondary">Reset</button>
+                        <button id="btn-reset-search" class="btn btn-secondary">↩ Reset</button>
                     </div>
                 </div>
-                <!-- Notification area -->
                 <div id="search-notification" class="notification hidden"></div>
             </div>
 
-            <div class="search-section">
-                <h2>🎯 Lấy Product theo ID</h2>
-                <div class="search-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="product-id">Product ID:</label>
-                            <input type="number" id="product-id" placeholder="Nhập ID...">
-                        </div>
+            <div class="card-panel">
+                <h3 class="panel-title">🎯 Lấy Product theo ID</h3>
+                <div class="inline-form">
+                    <div class="form-group flex-grow">
+                        <label for="product-id">Product ID:</label>
+                        <input type="number" id="product-id" placeholder="Nhập ID...">
                     </div>
                 </div>
             </div>
 
             <div class="results-section">
                 <div class="results-header">
-                    <h2>📦 Kết quả</h2>
+                    <h3>📦 Kết quả</h3>
                     <span id="products-count" class="count-badge">0 products</span>
                 </div>
                 <div id="products-results" class="results-grid"></div>
             </div>
         </div>
 
-        <!-- Categories Tab -->
+        <!-- ===== CATEGORIES TAB ===== -->
         <div id="categories-tab" class="tab-content">
-            <div class="search-section">
-                <h2>📂 Categories</h2>
+            <div class="section-header">
+                <h2>📂 Quản lý Categories</h2>
             </div>
 
-            <div class="search-section">
-                <h2>🎯 Lấy Category theo ID</h2>
-                <div class="search-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="category-id">Category ID:</label>
-                            <input type="number" id="category-id" placeholder="Nhập ID...">
-                        </div>
+            <div class="card-panel">
+                <h3 class="panel-title">🎯 Lấy Category theo ID</h3>
+                <div class="inline-form">
+                    <div class="form-group flex-grow">
+                        <label for="category-id">Category ID:</label>
+                        <input type="number" id="category-id" placeholder="Nhập ID...">
                     </div>
                 </div>
             </div>
 
             <div class="results-section">
                 <div class="results-header">
-                    <h2>📦 Kết quả</h2>
+                    <h3>📦 Kết quả</h3>
                     <span id="categories-count" class="count-badge">0 categories</span>
                 </div>
                 <div id="categories-results" class="results-grid"></div>
             </div>
-        </div>
-
-        <!-- Users Tab -->
-        <div id="users-tab" class="tab-content">
-            <div class="search-section">
-                <h2>👥 Users</h2>
-            </div>
-
-            <div class="search-section">
-                <h2>🎯 Lấy User theo ID</h2>
-                <div class="search-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="user-id">User ID:</label>
-                            <input type="number" id="user-id" placeholder="Nhập ID...">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="results-section">
-                <div class="results-header">
-                    <h2>📦 Kết quả</h2>
-                    <span id="users-count" class="count-badge">0 users</span>
-                </div>
-                <div id="users-results" class="results-grid"></div>
-            </div>
-        </div>
-
-        <!-- Loading Overlay -->
-        <div id="loading" class="loading hidden">
-            <div class="spinner"></div>
-            <p>Đang tải...</p>
         </div>
     </div>
 
